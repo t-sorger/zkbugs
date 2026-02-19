@@ -1,0 +1,36 @@
+{
+    "Spend in proof-of-burn": {
+        "Id": "worm-privacy/proof-of-burn/koukyosyumei-Circom-2",
+        "Path": "dataset/circom/worm-privacy/proof-of-burn/koukyosyumei_spend",
+        "Project": "https://github.com/worm-privacy/proof-of-burn",
+        "Commit": "ae88dd2b65cc2343684f8c0a81900c44daf2d476",
+        "Fix Commit": "66ca5dfe2091db4786518008caaf34fab0e4a07b",
+        "DSL": "Circom",
+        "Vulnerability": "Under-Constrained",
+        "Impact": "Soundness",
+        "Root Cause": "Missing Input Constraints",
+        "Reproduced": true,
+        "Location": {
+            "Path": "circuits/spend.circom",
+            "Function": "Spend",
+            "Line": "30-48"
+        },
+        "Source": {
+            "GitHub Security Advisory": {
+                "Source Link": "https://github.com/worm-privacy/proof-of-burn/issues/1",
+                "Bug ID": "Circom-2: Spend Under-Constrained Comparison"
+            }
+        },
+        "Commands": {
+            "Setup Environment": "./zkbugs_setup.sh",
+            "Reproduce": "./zkbugs_exploit.sh",
+            "Compile and Preprocess": "./zkbugs_compile_setup.sh",
+            "Positive Test": "./zkbugs_positive_test.sh",
+            "Find Exploit": "./zkbugs_find_exploit.sh",
+            "Clean": "./zkbugs_clean.sh"
+        },
+        "Short Description of the Vulnerability": "The Spend template uses AssertGreaterEqThan without explicit bit-length validation on the inputs. This allows a malicious prover to provide inputs that exceed the expected bit range, causing the comparison to yield incorrect results. An attacker could create a proof where the balance is incorrectly verified against the withdrawn amount plus fee.",
+        "Short Description of the Exploit": "A malicious prover can craft inputs where balance appears less than withdrawnBalance + fee in the field, bypassing the assertion check through circomlib's overflow behavior in comparison templates.",
+        "Proposed Mitigation": "Add explicit range checks using Num2Bits to validate that all inputs (balance, withdrawnBalance, fee) remain within expected bit lengths before performing comparisons."
+    }
+}

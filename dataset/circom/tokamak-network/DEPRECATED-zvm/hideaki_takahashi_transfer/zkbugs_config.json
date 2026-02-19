@@ -1,0 +1,36 @@
+{
+    "Transfer in DEPRECATED-zvm": {
+        "Id": "tokamak-network/DEPRECATED-zvm/hideaki_takahashi-Circom-7",
+        "Path": "dataset/circom/tokamak-network/DEPRECATED-zvm/hideaki_takahashi_transfer",
+        "Project": "https://github.com/tokamak-network/DEPRECATED-zvm",
+        "Commit": "",
+        "Fix Commit": "",
+        "DSL": "Circom",
+        "Vulnerability": "Under-Constrained",
+        "Impact": "Soundness",
+        "Root Cause": "Wrong Translation of Logic into Constraints",
+        "Reproduced": false,
+        "Location": {
+            "Path": "src/circuits/transfer-asset.circom",
+            "Function": "Transfer",
+            "Line": "2-20"
+        },
+        "Source": {
+            "GitHub Security Advisory": {
+                "Source Link": "https://github.com/tokamak-network/DEPRECATED-zvm",
+                "Bug ID": "Circom-7: Transfer Under-Constrained Asset Transfer"
+            }
+        },
+        "Commands": {
+            "Setup Environment": "",
+            "Reproduce": "",
+            "Compile and Preprocess": "",
+            "Positive Test": "",
+            "Find Exploit": "",
+            "Clean": ""
+        },
+        "Short Description of the Vulnerability": "The Transfer circuit contains under-constrained asset transfer logic. The use of assertions instead of proper circuit constraints for balance verification allows a malicious prover to create invalid proofs where balance decreases beyond available funds. The circuit lacks sufficient constraints to prevent witness forgery.",
+        "Short Description of the Exploit": "A prover can assign arbitrary values to balance signals, creating proofs that violate the intended invariant that from_balance >= amount for valid transfers.",
+        "Proposed Mitigation": "Replace assertions with proper circom constraints using LessThan and other comparison templates to rigorously enforce balance invariants. Note: This repository is deprecated and no longer maintained."
+    }
+}

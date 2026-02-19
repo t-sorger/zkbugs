@@ -1,0 +1,7 @@
+{
+    "from": 1,
+    "from_balance": 1000,
+    "to": 2,
+    "to_balance": 500,
+    "amount": 200
+}

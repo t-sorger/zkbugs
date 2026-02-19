@@ -1,0 +1,7 @@
+{
+    "burnKey": 123456,
+    "balance": 1000,
+    "withdrawnBalance": 200,
+    "receiverAddress": 65535,
+    "fee": 50
+}

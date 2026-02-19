@@ -1,0 +1,36 @@
+{
+    "DataEncoder in rarimo/passport-zk-circuits": {
+        "Id": "rarimo/passport-zk-circuits/hideaki_takahashi-Circom-1",
+        "Path": "dataset/circom/rarimo/passport-zk-circuits/hideaki_takahashi_DataEncoder_in_rarimo_passport_zk_circuits",
+        "Project": "https://github.com/rarimo/passport-zk-circuits",
+        "Commit": "94162af6424bdaec66d5f7c205d546ac7a724972",
+        "Fix Commit": "bbbe14c71c08be20a55f29bb2159261f0b32be0f",
+        "DSL": "Circom",
+        "Vulnerability": "Under-Constrained",
+        "Impact": "Soundness",
+        "Root Cause": "Missing Input Constraints",
+        "Reproduced": true,
+        "Location": {
+            "Path": "circuits/dateEncoder.circom",
+            "Function": "DateEncoder",
+            "Line": "10-23"
+        },
+        "Source": {
+            "GitHub Security Advisory": {
+                "Source Link": "https://github.com/rarimo/passport-zk-circuits/pull/60",
+                "Bug ID": "Circom-1: DataEncoder Under-Constrained"
+            }
+        },
+        "Commands": {
+            "Setup Environment": "./zkbugs_setup.sh",
+            "Reproduce": "./zkbugs_exploit.sh",
+            "Compile and Preprocess": "./zkbugs_compile_setup.sh",
+            "Positive Test": "./zkbugs_positive_test.sh",
+            "Find Exploit": "./zkbugs_find_exploit.sh",
+            "Clean": "./zkbugs_clean.sh"
+        },
+        "Short Description of the Vulnerability": "The DateEncoder template decomposes day, month, and year values into decimal and remainder components, but fails to constrain the remainder signals (dayRest, monthRest, yearRest) to the valid range [0,9]. This allows a malicious prover to assign arbitrary values to these signals that satisfy the arithmetic constraint but violate the intended digit decomposition invariant.",
+        "Short Description of the Exploit": "A malicious prover can provide inputs where the remainder signals exceed the valid digit range [0,9], causing the circuit to accept invalid date encodings that do not correspond to legitimate date values.",
+        "Proposed Mitigation": "Add explicit range checks to constrain dayRest, monthRest, and yearRest to the range [0,9] using LessThan and Num2Bits templates from circomlib. This ensures only valid digit values satisfy the constraints."
+    }
+}

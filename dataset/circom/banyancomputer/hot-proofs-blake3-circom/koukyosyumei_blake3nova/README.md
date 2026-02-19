@@ -1,0 +1,38 @@
+# Blake3Nova in hot-proofs-blake3-circom
+
+* Id: banyancomputer/hot-proofs-blake3-circom/koukyosyumei-Circom-5
+* Project: https://github.com/banyancomputer/hot-proofs-blake3-circom
+* Commit: Prior to 73992f7d4e8dda53e4472031f8a8a354531502bf
+* Fix Commit: 73992f7d4e8dda53e4472031f8a8a354531502bf
+* DSL: Circom
+* Vulnerability: Under-Constrained
+* Impact: Soundness
+* Root Cause: Missing Input Constraints
+* Reproduced: True
+* Location
+  - Path: circuits/blake3_nova.circom
+  - Function: Blake3NovaTreePath_CheckDepth
+  - Line: 12-41
+* Source: GitHub Security Advisory
+  - Source Link: https://github.com/banyancomputer/hot-proofs-blake3-circom/issues/10
+  - Bug ID: Circom-5: Blake3Nova Under-Constrained Depth Check
+* Commands
+  - Setup Environment: `./zkbugs_setup.sh`
+  - Reproduce: `./zkbugs_exploit.sh`
+  - Compile and Preprocess: `./zkbugs_compile_setup.sh`
+  - Positive Test: `./zkbugs_positive_test.sh`
+  - Find Exploit: `./zkbugs_find_exploit.sh`
+  - Clean: `./zkbugs_clean.sh`
+
+## Short Description of the Vulnerability
+
+The Blake3Nova circuit's depth checking mechanism uses circomlib's LessThan and GreaterEqThan templates without validating input bit lengths. When inputs exceed the expected range, the comparison can yield incorrect results, allowing bypass of depth verification.
+
+## Short Description of the Exploit
+
+An attacker can provide a depth value that exceeds expected bit length, causing the comparison to incorrectly evaluate and bypass the depth check.
+
+## Proposed Mitigation
+
+Add explicit bit length validation using Num2Bits to ensure all inputs (depth, leaf_depth) remain within expected ranges before comparison operations.
+

@@ -1,0 +1,38 @@
+# IntDiv in subnet-2-circom
+
+* Id: inference-labs-inc/subnet-2-circom/koukyosyumei-Circom-6
+* Project: https://github.com/inference-labs-inc/subnet-2-circom
+* Commit: Before 9221e8dfff3c13153eadeaaba46458060056873b
+* Fix Commit: 9221e8dfff3c13153eadeaaba46458060056873b
+* DSL: Circom
+* Vulnerability: Under-Constrained
+* Impact: Soundness
+* Root Cause: Arithmetic Field Errors
+* Reproduced: True
+* Location
+  - Path: src/integerDivision.circom
+  - Function: IntDiv
+  - Line: 13-40
+* Source: GitHub Security Advisory
+  - Source Link: https://github.com/inference-labs-inc/subnet-2-circom/pull/2
+  - Bug ID: Circom-6: IntDiv Under-Constrained Arithmetic
+* Commands
+  - Setup Environment: `./zkbugs_setup.sh`
+  - Reproduce: `./zkbugs_exploit.sh`
+  - Compile and Preprocess: `./zkbugs_compile_setup.sh`
+  - Positive Test: `./zkbugs_positive_test.sh`
+  - Find Exploit: `./zkbugs_find_exploit.sh`
+  - Clean: `./zkbugs_clean.sh`
+
+## Short Description of the Vulnerability
+
+The IntDiv template assigns quotient and remainder using unconstrained hints without sufficient validation. While constraints are attempted through Num2Bits, the mathematical proof relies on potentially inadequate bit-width constraints that may not fully prevent invalid quotient/remainder pairs.
+
+## Short Description of the Exploit
+
+An attacker can provide invalid quotient or remainder values that satisfy the weak constraints but violate the intended division invariant.
+
+## Proposed Mitigation
+
+Add rigorous range checks using Num2Bits and explicit LessThan constraints to ensure remainder < divisor and quotient/remainder are valid.
+
